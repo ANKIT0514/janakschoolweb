@@ -221,26 +221,6 @@ const Contact = () => {
                 </CardContent>
               </Card>
 
-              {/* Quick Contact */}
-              <Card className="bg-primary text-white border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl">Quick Contact</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold mb-2">For Admissions:</h4>
-                      <p className="text-blue-100">Call: +977-1-1234567</p>
-                      <p className="text-blue-100">Email: admissions@janakschool.edu.np</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">For General Inquiries:</h4>
-                      <p className="text-blue-100">Call: +977 9844129184</p>
-                      <p className="text-blue-100">Email: info@janakschool.edu.np</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
