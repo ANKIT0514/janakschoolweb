@@ -1,0 +1,38 @@
+.shiny-text {
+  position: relative;
+  display: inline-block;
+  color: hsl(var(--foreground) / 0.7);
+  font-weight: 700;
+}
+
+.shiny-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 33%,
+    rgba(255, 255, 255, 0.9) 50%,
+    transparent 66%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-position: 200% 0;
+  animation: shine var(--animation-duration, 3s) linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.shiny-text.disabled::before {
+  animation: none;
+}
