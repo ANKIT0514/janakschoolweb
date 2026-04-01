@@ -195,6 +195,7 @@ const Academics = () => {
 
 
       {/* Academic Calendar */}
+      {/*
       <section className="py-20 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
           <Clock className="h-12 w-12 text-secondary mx-auto mb-6" />
@@ -215,6 +216,7 @@ const Academics = () => {
           </div>
         </div>
       </section>
+      */}
     </div>
   );
 };
