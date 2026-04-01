@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCountUp } from '@/hooks/useCountUp';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [openAlbum, setOpenAlbum] = useState(null);
   const [lightboxPhoto, setLightboxPhoto] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
@@ -23,66 +21,42 @@ const Gallery = () => {
     { id: 'facilities', name: 'Facilities' }
   ];
 
-  const albums = {
+  const photos = {
     classrooms: [
-      {
-        id: 'smart-classroom',
-        name: 'Classroom Activities',
-        cover: '/images/3.jpg',
-        photos: ['/images/3.jpg']
-      }
+      '/images/3.jpg'
     ],
     events: [
-      {
-        id: 'school-events',
-        name: 'School Events',
-        cover: '/images/52.jpg',
-        photos: [
-          '/images/event1.jpg',
-          '/images/45.jpg',
-          '/images/52.jpg',
-          '/images/46.jpg',
-          '/images/47.jpg',
-          '/images/61.jpg',
-          '/images/69.jpg',
-          '/images/70.jpg',
-          '/images/54.jpg',
-          '/images/51.jpg'
-        ]
-      }
+      '/images/event1.jpg',
+      '/images/45.jpg',
+      '/images/52.jpg',
+      '/images/46.jpg',
+      '/images/47.jpg',
+      '/images/61.jpg',
+      '/images/69.jpg',
+      '/images/70.jpg',
+      '/images/54.jpg',
+      '/images/51.jpg'
     ],
     sports: [
-      {
-        id: 'sports-activities',
-        name: 'Sports Activities',
-        cover: '/images/cricket.jpg',
-        photos: [
-          '/images/cricket.jpg',
-          '/images/volleyball.jpeg',
-          '/images/cricket.jpg',
-          '/images/cricket2.jpg',
-          '/images/59.jpg',
-          '/images/60.jpg',
-          '/images/58.jpg'
-        ]
-      }
+      '/images/cricket.jpg',
+      '/images/volleyball.jpeg',
+      '/images/cricket.jpg',
+      '/images/cricket2.jpg',
+      '/images/59.jpg',
+      '/images/60.jpg',
+      '/images/58.jpg'
     ],
     facilities: [
-      {
-        id: 'school-facilities',
-        name: 'Campus Facilities',
-        cover: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80',
-        photos: [
-          'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80'
-        ]
-      }
+      'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80'
     ]
   };
 
-  const allPhotos = Object.values(albums).flat().flatMap(album => album.photos);
+  const allPhotos = Object.values(photos).flat();
 
-  const openLightbox = (photos, index) => {
-    setLightboxPhoto(photos);
+  const currentPhotos = selectedCategory === 'all' ? allPhotos : photos[selectedCategory] || [];
+
+  const openLightbox = (index) => {
+    setLightboxPhoto(currentPhotos);
     setLightboxIndex(index);
   };
 
@@ -112,7 +86,6 @@ const Gallery = () => {
           className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/10"
           onClick={handleBackdropClick}
         >
-          {/* Close button */}
           <button
             onClick={closeLightbox}
             className="absolute top-4 right-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
@@ -120,7 +93,6 @@ const Gallery = () => {
             <X size={28} />
           </button>
 
-          {/* Prev button */}
           {lightboxPhoto.length > 1 && (
             <button
               onClick={goPrev}
@@ -130,14 +102,12 @@ const Gallery = () => {
             </button>
           )}
 
-          {/* Image */}
           <img
             src={lightboxPhoto[lightboxIndex]}
             alt=""
             className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
           />
 
-          {/* Next button */}
           {lightboxPhoto.length > 1 && (
             <button
               onClick={goNext}
@@ -147,7 +117,6 @@ const Gallery = () => {
             </button>
           )}
 
-          {/* Counter */}
           <div className="absolute bottom-4 text-gray-800 bg-white/70 px-3 py-1 rounded-full text-sm shadow">
             {lightboxIndex + 1} / {lightboxPhoto.length}
           </div>
@@ -186,10 +155,7 @@ const Gallery = () => {
             {categories.map(category => (
               <Button
                 key={category.id}
-                onClick={() => {
-                  setSelectedCategory(category.id);
-                  setOpenAlbum(null);
-                }}
+                onClick={() => setSelectedCategory(category.id)}
                 variant={selectedCategory === category.id ? "default" : "outline"}
               >
                 {category.name}
@@ -199,74 +165,22 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* ALL PHOTOS */}
-      {selectedCategory === 'all' && (
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {allPhotos.map((photo, index) => (
-                <img
-                  key={index}
-                  src={photo}
-                  alt=""
-                  onClick={() => openLightbox(allPhotos, index)}
-                  className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition cursor-pointer"
-                />
-              ))}
-            </div>
+      {/* Photos Grid */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {currentPhotos.map((photo, index) => (
+              <img
+                key={index}
+                src={photo}
+                alt=""
+                onClick={() => openLightbox(index)}
+                className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition cursor-pointer"
+              />
+            ))}
           </div>
-        </section>
-      )}
-
-      {/* CATEGORY → SHOW ALBUMS */}
-      {selectedCategory !== 'all' && !openAlbum && (
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-              {albums[selectedCategory]?.map(album => (
-                <div
-                  key={album.id}
-                  onClick={() => setOpenAlbum(album)}
-                  className="cursor-pointer text-center"
-                >
-                  <Card className="overflow-hidden shadow-lg hover:shadow-xl transition">
-                    <img
-                      src={album.cover}
-                      alt={album.name}
-                      className="w-full h-60 object-cover"
-                    />
-                  </Card>
-                  <h3 className="mt-4 text-lg font-semibold">{album.name}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* INSIDE ALBUM */}
-      {openAlbum && (
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="mb-6">
-              <Button variant="outline" onClick={() => setOpenAlbum(null)}>
-                ← Back to Albums
-              </Button>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {openAlbum.photos.map((photo, index) => (
-                <img
-                  key={index}
-                  src={photo}
-                  alt=""
-                  onClick={() => openLightbox(openAlbum.photos, index)}
-                  className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition cursor-pointer"
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Gallery Stats */}
       <section className="py-16 bg-white">
