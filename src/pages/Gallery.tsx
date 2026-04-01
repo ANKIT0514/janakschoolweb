@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCountUp } from '@/hooks/useCountUp';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [openAlbum, setOpenAlbum] = useState(null);
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const classroomStats = useCountUp({ end: 50, duration: 2000, suffix: '+' });
   const eventStats = useCountUp({ end: 100, duration: 2000, suffix: '+' });
@@ -21,16 +23,13 @@ const Gallery = () => {
     { id: 'facilities', name: 'Facilities' }
   ];
 
-  // Albums structured from your previous gallery items
   const albums = {
     classrooms: [
       {
         id: 'smart-classroom',
         name: 'Classroom Activities',
         cover: '/images/3.jpg',
-        photos: [
-          '/images/3.jpg'
-        ]
+        photos: ['/images/3.jpg']
       }
     ],
     events: [
@@ -80,27 +79,88 @@ const Gallery = () => {
     ]
   };
 
-  const allPhotos = Object.values(albums)
-    .flat()
-    .flatMap(album => album.photos);
+  const allPhotos = Object.values(albums).flat().flatMap(album => album.photos);
+
+  const openLightbox = (photos, index) => {
+    setLightboxPhoto(photos);
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxPhoto(null);
+    setLightboxIndex(0);
+  };
+
+  const goPrev = () => {
+    setLightboxIndex(prev => (prev - 1 + lightboxPhoto.length) % lightboxPhoto.length);
+  };
+
+  const goNext = () => {
+    setLightboxIndex(prev => (prev + 1) % lightboxPhoto.length);
+  };
+
+  // Close on backdrop click
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) closeLightbox();
+  };
 
   return (
     <div className="animate-fade-in">
 
+      {/* Lightbox */}
+      {lightboxPhoto && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onClick={handleBackdropClick}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition z-50"
+          >
+            <X size={28} />
+          </button>
+
+          {/* Prev button */}
+          {lightboxPhoto.length > 1 && (
+            <button
+              onClick={goPrev}
+              className="absolute left-4 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition z-50"
+            >
+              <ChevronLeft size={32} />
+            </button>
+          )}
+
+          {/* Image */}
+          <img
+            src={lightboxPhoto[lightboxIndex]}
+            alt=""
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
+          />
+
+          {/* Next button */}
+          {lightboxPhoto.length > 1 && (
+            <button
+              onClick={goNext}
+              className="absolute right-4 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition z-50"
+            >
+              <ChevronRight size={32} />
+            </button>
+          )}
+
+          {/* Counter */}
+          <div className="absolute bottom-4 text-white/70 text-sm">
+            {lightboxIndex + 1} / {lightboxPhoto.length}
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 md:py-24 overflow-hidden h-[350px] sm:h-[400px] md:h-[450px]">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
           <source src="/drone-shot.mp4" type="video/mp4" />
         </video>
-
         <div className="absolute inset-0 bg-black/50"></div>
-
         <div className="container mx-auto px-4 relative z-10 h-full flex items-center justify-center">
           <div className="text-center max-w-4xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
@@ -144,7 +204,8 @@ const Gallery = () => {
                   key={index}
                   src={photo}
                   alt=""
-                  className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition"
+                  onClick={() => openLightbox(allPhotos, index)}
+                  className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition cursor-pointer"
                 />
               ))}
             </div>
@@ -170,9 +231,7 @@ const Gallery = () => {
                       className="w-full h-60 object-cover"
                     />
                   </Card>
-                  <h3 className="mt-4 text-lg font-semibold">
-                    {album.name}
-                  </h3>
+                  <h3 className="mt-4 text-lg font-semibold">{album.name}</h3>
                 </div>
               ))}
             </div>
@@ -184,20 +243,19 @@ const Gallery = () => {
       {openAlbum && (
         <section className="py-12 bg-gray-50">
           <div className="container mx-auto px-4">
-
             <div className="mb-6">
               <Button variant="outline" onClick={() => setOpenAlbum(null)}>
                 ← Back to Albums
               </Button>
             </div>
-
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {openAlbum.photos.map((photo, index) => (
                 <img
                   key={index}
                   src={photo}
                   alt=""
-                  className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition"
+                  onClick={() => openLightbox(openAlbum.photos, index)}
+                  className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 transition cursor-pointer"
                 />
               ))}
             </div>
@@ -205,7 +263,7 @@ const Gallery = () => {
         </section>
       )}
 
-      {/* Gallery Stats (UNCHANGED) */}
+      {/* Gallery Stats */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
