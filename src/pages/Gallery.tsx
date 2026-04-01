@@ -12,10 +12,10 @@ const Gallery = () => {
   const touchEndX = useRef(null);
   const minSwipeDistance = 50;
 
-  const classroomStats = useCountUp({ end: 50, duration: 2000, suffix: '+' });
-  const eventStats = useCountUp({ end: 100, duration: 2000, suffix: '+' });
-  const sportsStats = useCountUp({ end: 30, duration: 2000, suffix: '+' });
-  const tripsStats = useCountUp({ end: 25, duration: 2000, suffix: '+' });
+ // const classroomStats = useCountUp({ end: 50, duration: 2000, suffix: '+' });
+ // const eventStats = useCountUp({ end: 100, duration: 2000, suffix: '+' });
+//  const sportsStats = useCountUp({ end: 30, duration: 2000, suffix: '+' });
+//  const tripsStats = useCountUp({ end: 25, duration: 2000, suffix: '+' });
 
   const categories = [
     { id: 'all', name: 'All Photos' },
@@ -218,6 +218,7 @@ const Gallery = () => {
       </section>
 
       {/* Gallery Stats */}
+      {/*
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -240,7 +241,7 @@ const Gallery = () => {
           </div>
         </div>
       </section>
-
+      */}
     </div>
   );
 };
