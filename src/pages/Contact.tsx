@@ -54,7 +54,7 @@ const Contact = () => {
       icon: MapPin,
       title: 'Address',
       details: 'Janakpurdham, Nepal',
-      subDetails: 'Ward No. 5, Janakpurdham Sub- Metropolitan City'
+      subDetails: 'Ward No. 11, Janakpurdham Sub- Metropolitan City'
     },
     {
       icon: Phone,
@@ -71,8 +71,8 @@ const Contact = () => {
     {
       icon: Clock,
       title: 'Office Hours',
-      details: 'Monday - Friday: 8:00 AM - 5:00 PM',
-      subDetails: 'Saturday: 8:00 AM - 1:00 PM'
+      details: 'Sunday - Friday: 8:00 AM - 4:00 PM',
+      subDetails: 
     }
   ];
 
@@ -212,7 +212,7 @@ const Contact = () => {
                   </div>
                   <div className="text-sm text-gray-600">
                     <p className="mb-2">
-                      <strong>Address:</strong> Ward No. 5, Jankpurdham  City, Nepal
+                      <strong>Address:</strong> Ward No. 11, Jankpurdham  City, Nepal
                     </p>
                     <p>
                       <strong>Landmark:</strong> Near Janaki Mandir, 5 minutes walk from Janaki Mandir
