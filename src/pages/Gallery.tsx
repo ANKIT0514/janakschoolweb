@@ -51,7 +51,9 @@ const Gallery = () => {
         cover: '/images/cricket.jpg',
         photos: [
           '/images/cricket.jpg',
-          '/images/volleyball.jpeg'
+          '/images/volleyball.jpeg',
+          '/images/cricket.jpg',
+          '/images/cricket2.jpg'
         ]
       }
     ],
