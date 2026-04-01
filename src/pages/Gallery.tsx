@@ -167,7 +167,7 @@ const Gallery = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/drone-shot.mp4" type="video/mp4" />
+          <source src="/janak.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="container mx-auto px-4 relative z-10 h-full flex items-center justify-center">
