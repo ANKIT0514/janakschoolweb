@@ -37,10 +37,18 @@ const Gallery = () => {
       {
         id: 'school-events',
         name: 'School Events',
-        cover: '/images/event1.jpg',
+        cover: '/images/52.jpg',
         photos: [
           '/images/event1.jpg',
-          '/images/event1.jpg'
+          '/images/45.jpg',
+          '/images/52.jpg',
+          '/images/46.jpg',
+          '/images/47.jpg',
+          '/images/61.jpg',
+          '/images/69.jpg',
+          '/images/70.jpg',
+          '/images/54.jpg',
+          '/images/51.jpg'
         ]
       }
     ],
@@ -53,7 +61,10 @@ const Gallery = () => {
           '/images/cricket.jpg',
           '/images/volleyball.jpeg',
           '/images/cricket.jpg',
-          '/images/cricket2.jpg'
+          '/images/cricket2.jpg',
+          '/images/59.jpg',
+          '/images/60.jpg',
+          '/images/58.jpg'
         ]
       }
     ],
@@ -63,8 +74,7 @@ const Gallery = () => {
         name: 'Campus Facilities',
         cover: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80',
         photos: [
-          'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80'
+          'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80'
         ]
       }
     ]
