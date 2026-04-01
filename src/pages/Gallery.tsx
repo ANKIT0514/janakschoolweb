@@ -29,9 +29,7 @@ const Gallery = () => {
         name: 'Classroom Activities',
         cover: '/images/3.jpg',
         photos: [
-          '/images/3.jpg',
-          'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1544531586-fbd96ceaeb07?auto=format&fit=crop&w=800&q=80'
+          '/images/3.jpg'
         ]
       }
     ],
