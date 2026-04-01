@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useCountUp } from '@/hooks/useCountUp';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -7,6 +7,10 @@ const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxPhoto, setLightboxPhoto] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+  const minSwipeDistance = 50;
 
   const classroomStats = useCountUp({ end: 50, duration: 2000, suffix: '+' });
   const eventStats = useCountUp({ end: 100, duration: 2000, suffix: '+' });
@@ -52,7 +56,6 @@ const Gallery = () => {
   };
 
   const allPhotos = Object.values(photos).flat();
-
   const currentPhotos = selectedCategory === 'all' ? allPhotos : photos[selectedCategory] || [];
 
   const openLightbox = (index) => {
@@ -77,6 +80,29 @@ const Gallery = () => {
     if (e.target === e.currentTarget) closeLightbox();
   };
 
+  const onTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchEndX.current = null;
+  };
+
+  const onTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (Math.abs(distance) >= minSwipeDistance) {
+      if (distance > 0) {
+        goNext(); // swiped left → next
+      } else {
+        goPrev(); // swiped right → prev
+      }
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   return (
     <div className="animate-fade-in">
 
@@ -86,6 +112,7 @@ const Gallery = () => {
           className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/10"
           onClick={handleBackdropClick}
         >
+          {/* Close button */}
           <button
             onClick={closeLightbox}
             className="absolute top-4 right-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
@@ -93,30 +120,38 @@ const Gallery = () => {
             <X size={28} />
           </button>
 
+          {/* Prev arrow - desktop only */}
           {lightboxPhoto.length > 1 && (
             <button
               onClick={goPrev}
-              className="absolute left-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
+              className="hidden sm:flex absolute left-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
             >
               <ChevronLeft size={32} />
             </button>
           )}
 
+          {/* Image with swipe support */}
           <img
             src={lightboxPhoto[lightboxIndex]}
             alt=""
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl select-none"
+            draggable={false}
           />
 
+          {/* Next arrow - desktop only */}
           {lightboxPhoto.length > 1 && (
             <button
               onClick={goNext}
-              className="absolute right-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
+              className="hidden sm:flex absolute right-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
             >
               <ChevronRight size={32} />
             </button>
           )}
 
+          {/* Counter */}
           <div className="absolute bottom-4 text-gray-800 bg-white/70 px-3 py-1 rounded-full text-sm shadow">
             {lightboxIndex + 1} / {lightboxPhoto.length}
           </div>
