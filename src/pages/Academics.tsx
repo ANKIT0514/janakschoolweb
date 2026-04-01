@@ -183,7 +183,7 @@ const Academics = () => {
             </div>
             <div>
               <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+                src="/images/C1788.jpg.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
                 alt="Modern Classroom"
                 className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
               />
