@@ -99,7 +99,6 @@ const Gallery = () => {
     setLightboxIndex(prev => (prev + 1) % lightboxPhoto.length);
   };
 
-  // Close on backdrop click
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) closeLightbox();
   };
@@ -110,13 +109,13 @@ const Gallery = () => {
       {/* Lightbox */}
       {lightboxPhoto && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/10"
           onClick={handleBackdropClick}
         >
           {/* Close button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition z-50"
+            className="absolute top-4 right-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
           >
             <X size={28} />
           </button>
@@ -125,7 +124,7 @@ const Gallery = () => {
           {lightboxPhoto.length > 1 && (
             <button
               onClick={goPrev}
-              className="absolute left-4 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition z-50"
+              className="absolute left-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
             >
               <ChevronLeft size={32} />
             </button>
@@ -142,14 +141,14 @@ const Gallery = () => {
           {lightboxPhoto.length > 1 && (
             <button
               onClick={goNext}
-              className="absolute right-4 text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition z-50"
+              className="absolute right-4 text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 transition z-50 shadow-lg"
             >
               <ChevronRight size={32} />
             </button>
           )}
 
           {/* Counter */}
-          <div className="absolute bottom-4 text-white/70 text-sm">
+          <div className="absolute bottom-4 text-gray-800 bg-white/70 px-3 py-1 rounded-full text-sm shadow">
             {lightboxIndex + 1} / {lightboxPhoto.length}
           </div>
         </div>
@@ -157,7 +156,13 @@ const Gallery = () => {
 
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 md:py-24 overflow-hidden h-[350px] sm:h-[400px] md:h-[450px]">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
           <source src="/drone-shot.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black/50"></div>
